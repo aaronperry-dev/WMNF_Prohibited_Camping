@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>GeoJSON Overlay with OpenLayers</title>
-  <!-- Load OpenLayers CSS -->
-  <link rel="stylesheet" href="https://openlayers.org/en/v6.15.1/css/ol.css" type="text/css">
+  <!-- Load OpenLayers CSS from jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@6.15.1/ol.css">
   <style>
     html, body { margin: 0; padding: 0; height: 100%; }
     #map { width: 100%; height: 100%; }
@@ -12,21 +12,21 @@
 </head>
 <body>
   <div id="map"></div>
-  <!-- Load OpenLayers JS -->
-  <script src="https://openlayers.org/en/v6.15.1/build/ol.js"></script>
+  <!-- Load OpenLayers JS from jsdelivr CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/ol@6.15.1/ol.js"></script>
   <script>
-    // Check that ol is loaded
-    if (typeof ol === 'undefined') {
-      console.error('OpenLayers failed to load.');
+    // Ensure OpenLayers has loaded
+    if (!window.ol) {
+      console.error('OpenLayers library not found. Did the CDN load correctly?');
     }
 
-    // Style for all GeoJSON layers (red fill and stroke)
+    // Style for GeoJSON layers (semi-transparent red fill, red stroke)
     const geojsonStyle = new ol.style.Style({
-      fill: new ol.style.Fill({ color: 'rgba(255,0,0,0.5)' }),
+      fill: new ol.style.Fill({ color: 'rgba(255, 0, 0, 0.5)' }),
       stroke: new ol.style.Stroke({ color: 'red', width: 2 })
     });
 
-    // Helper to create a vector layer from a GeoJSON file
+    // Function to create a vector layer from GeoJSON URL
     function createGeojsonLayer(url) {
       return new ol.layer.Vector({
         source: new ol.source.Vector({
@@ -37,34 +37,34 @@
       });
     }
 
-    // Create layers for each quadrant
+    // Instantiate GeoJSON layers
     const layerSE = createGeojsonLayer('simplified_SE.geojson');
     const layerSW = createGeojsonLayer('simplified_SW.geojson');
     const layerNE = createGeojsonLayer('simplified_NE.geojson');
     const layerNW = createGeojsonLayer('simplified_NW.geojson');
 
-    // Base OSM layer
+    // Base OpenStreetMap tile layer
     const osmLayer = new ol.layer.Tile({ source: new ol.source.OSM() });
 
-    // Initialize map
+    // Initialize the map
     const map = new ol.Map({
       target: 'map',
       layers: [osmLayer, layerSE, layerSW, layerNE, layerNW],
       view: new ol.View({ center: [0, 0], zoom: 2 })
     });
 
-    // Once all sources are loaded, fit the view to their combined extent
+    // Fit view once all GeoJSON sources are ready
     const sources = [layerSE.getSource(), layerSW.getSource(), layerNE.getSource(), layerNW.getSource()];
-    let loadedCount = 0;
+    let readyCount = 0;
     sources.forEach(src => {
       src.on('change', () => {
         if (src.getState() === 'ready') {
-          loadedCount++;
-          if (loadedCount === sources.length) {
-            // Compute combined extent
-            const combined = ol.extent.createEmpty();
-            sources.forEach(s => ol.extent.extend(combined, s.getExtent()));
-            map.getView().fit(combined, { padding: [50, 50, 50, 50] });
+          readyCount++;
+          if (readyCount === sources.length) {
+            // Compute and fit to combined extent
+            const combinedExtent = ol.extent.createEmpty();
+            sources.forEach(s => ol.extent.extend(combinedExtent, s.getExtent()));
+            map.getView().fit(combinedExtent, { padding: [50, 50, 50, 50] });
           }
         }
       });
