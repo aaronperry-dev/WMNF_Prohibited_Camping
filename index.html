@@ -16,29 +16,18 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      /* Existing Flexbox for layout (for map to fill height) */
       display: flex;
       flex-direction: column;
-      /* New Theme Body Styles */
       background-image: url('contours.jpg'); /* New theme background */
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;
       font-family: 'Helvetica', 'Arial', sans-serif; /* New theme font family */
       line-height: 1.6;
-      /* Add this to hide overall body scrollbar if content exceeds height */
-      overflow: hidden;
+      overflow: hidden; /* Crucial: Prevent overall body scrollbar */
     }
 
-    /* New Theme Banner */
-    #top-banner {
-      background-image: url('chocorua_lake_banner.jpg'); /* Banner image */
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 100%;
-      height: 100px; /* Adjust height as needed */
-    }
+    /* #top-banner is REMOVED */
 
     /* New Theme Navbar - Start */
     #menu {
@@ -128,29 +117,26 @@
     /* Title Section - Adjusted for new theme */
     #title {
       text-align: center;
-      padding: 15px 10px; /* Increased padding slightly */
-      background-color: rgba(255, 255, 255, 0.85); /* Added semi-transparent background */
-      margin: 0; /* Remove margin from previous iteration */
+      padding: 15px 10px;
+      background-color: rgba(255, 255, 255, 0.85);
+      margin: 0;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       flex-shrink: 0; /* Prevent title from shrinking */
     }
     #title h1 {
-      /* New theme h1 style */
-      font-size: 2.2em; /* Slightly larger for main title */
-      margin: 0; /* Override previous margin */
+      font-size: 2.2em;
+      margin: 0;
       color: #000000;
       font-weight: bold;
       font-family: 'Helvetica', 'Arial', sans-serif;
     }
     #title h2 {
-      /* New theme h2 style */
-      font-size: 1.2em; /* Adjusted for explanation text */
-      margin: 10px 0 0; /* Adjusted margin */
+      font-size: 1.2em;
+      margin: 10px 0 0;
       color: #4061A6;
       font-family: 'Georgia Bold', 'Arial', serif;
     }
     #title h2:after {
-      /* New theme h2 underline effect */
       content:' ';
       color: #4061A6;
       background-color: #4061A6;
@@ -162,8 +148,8 @@
       box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
       -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
       -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
-      width: 80%; /* Adjusted width for the underline */
-      margin: 5px auto 0; /* Centered */
+      width: 80%;
+      margin: 5px auto 0;
     }
 
     /* Main content area containing map and legend */
@@ -172,24 +158,21 @@
       display: flex;
       flex-direction: column;
       position: relative; /* For map's absolute positioning of search/tooltip */
-      /* padding-bottom: 30px; */ /* Removed as footer is now 20px and fixed to bottom */
-      overflow: hidden; /* **Crucial: Prevent scrollbar on main-content** */
+      overflow: hidden; /* Crucial: Prevent scrollbar on main-content */
     }
 
     #map {
       flex: 1; /* Keep map flexible */
-      /* min-height: 400px; */ /* Removed min-height to allow full flex */
       width: 100%;
       position: relative; /* Keep for search/tooltip overlays */
     }
 
     /* Legend - Adjusted for new theme (h3 specifically) */
     #legend {
-      padding: 15px; /* Increased padding */
-      background: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
-      font-family: 'Helvetica', 'Arial', sans-serif; /* Match body font */
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
-      /* margin-top: 10px; */ /* Removed margin to allow legend to sit directly below map */
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.85);
+      font-family: 'Helvetica', 'Arial', sans-serif;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
       flex-shrink: 0; /* Prevent legend from shrinking */
     }
     #legend h3 {
@@ -283,7 +266,7 @@
       transform: translate(-50%, -100%);
       margin-top: -10px;
       border: 1px solid #ccc;
-      font-family: 'Helvetica', 'Arial', sans-serif; /* Match new theme font */
+      font-family: 'Helvetica', 'Arial', sans-serif;
     }
 
     /* New Theme Footer - Fixed */
@@ -292,7 +275,7 @@
       color: white;
       text-align: center;
       padding: 5px;
-      position: fixed; /* Keep fixed position */
+      position: fixed;
       bottom: 0;
       width: 100%;
       height: 20px;
@@ -325,7 +308,7 @@
     /* End of additional theme styles */
 
     /* --- Media Queries for Mobile Responsiveness --- */
-    @media screen and (max-width: 800px) { /* Adjusting based on new menu breakpoint */
+    @media screen and (max-width: 800px) {
       /* New Theme Navbar Mobile Styles */
       #menu {position:relative}
       #menu ul {background:#444444;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none;text-align:left;}
@@ -340,29 +323,29 @@
       /* End New Theme Navbar Mobile Styles */
 
       #title h1 {
-        font-size: 1.5em; /* Smaller title on mobile */
+        font-size: 1.5em;
       }
       #title h2 {
-        font-size: 1em; /* Smaller explanation on mobile */
+        font-size: 1em;
       }
-      #title h2:after { /* Adjust underline for mobile */
+      #title h2:after {
         width: 90%;
       }
 
       #search-container {
-        left: 50%; /* Center horizontally */
-        right: auto; /* Override right: 10px */
-        transform: translateX(-50%); /* Adjust for centering */
-        width: 90%; /* Make it wider to fill more of the screen */
-        max-width: 350px; /* Prevent it from becoming too wide on larger phones/small tablets */
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 350px;
       }
 
       #search-results {
-        max-height: 150px; /* Slightly reduce max height on smaller screens */
+        max-height: 150px;
       }
     }
 
-    @media screen and (max-width: 480px) { /* Further adjustments for very small screens (e.g., older phones) */
+    @media screen and (max-width: 480px) {
         #title h1 {
             font-size: 1.3em;
         }
@@ -370,27 +353,25 @@
             font-size: 0.9em;
         }
         #search-container {
-            top: 5px; /* Move slightly higher */
+            top: 5px;
             padding: 5px;
-            width: 95%; /* Even wider */
+            width: 95%;
         }
         #search-input {
-            padding: 4px 8px; /* Smaller padding */
+            padding: 4px 8px;
             font-size: 0.9em;
         }
         #search-button {
-            padding: 4px 10px; /* Smaller padding */
+            padding: 4px 10px;
             font-size: 0.9em;
         }
         #coordinate-tooltip {
-            font-size: 0.75em; /* Smaller font for tooltip */
+            font-size: 0.75em;
         }
     }
   </style>
 </head>
 <body>
-  <div id="top-banner"></div>
-
   <nav id='menu'>
     <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label for='responsive-menu'></label>
     <ul>
@@ -398,7 +379,7 @@
       <li><a href='/about'>About</a></li>
       <li><a href='https://www.linkedin.com/in/aaronperry-0012d156/'>LinkedIn</a></li>
       <li><a href='/sentinel2'>Sentinel-2 L2A Imagery</a></li>
-      <li><a href='/WMNF_Prohibited_Camping'>Prohibitive WMNF Camping Areas</a></li>
+      <li><a href='/WMNF_Prohibitive_Camping'>Prohibitive WMNF Camping Areas</a></li>
       </ul>
   </nav>
 
@@ -425,7 +406,7 @@
       <ul>
         <li>Camp at least **200 ft** from trails and water bodies.</li>
         <li>Camp at least **1/4 mile** from backcountry facilities (shelters, huts, trailheads).</li>
-        <li>No camping in the alpine zone (trees &lt;8 ft) except when &ge;2 ft of snow cover.</li>
+        <li>No camping in the alpine zone (trees $\le$8 ft) except when $\ge$2 ft of snow cover.</li>
         <li>Camp at least **1/4 mile** from designated roads.</li>
       </ul>
     </div>
@@ -442,31 +423,25 @@
       const responsiveMenuCheckbox = document.getElementById('responsive-menu');
       const menuUl = document.querySelector('#menu ul');
       if (responsiveMenuCheckbox && menuUl) {
-        // The CSS media query handles the `display: none` by default for larger screens.
-        // For mobile, when checked, it should display, otherwise hide.
         if (responsiveMenuCheckbox.checked) {
           menuUl.style.display = 'block';
         } else {
-          // Reset to default (which will be 'none' on mobile due to CSS media query)
           menuUl.style.display = '';
         }
       }
     }
 
     window.onload = function() {
-      // Validate OpenLayers global
       if (typeof ol === "undefined") {
         console.error("OpenLayers library not found. Make sure the script src is correct and served over HTTP/HTTPS.");
         return;
       }
 
-      // Common style for GeoJSON layers
       const geojsonStyle = new ol.style.Style({
         fill: new ol.style.Fill({ color: 'rgba(255, 0, 0, 0.5)' }),
         stroke: new ol.style.Stroke({ color: 'red', width: 2 })
       });
 
-      // Factory for vector layers
       function createGeojsonLayer(url) {
         return new ol.layer.Vector({
           source: new ol.source.Vector({ url: url, format: new ol.format.GeoJSON() }),
@@ -474,7 +449,6 @@
         });
       }
 
-      // Define the Gaia GPS USFS Classic basemap
       const gaiaUsfsBasemap = new ol.layer.Tile({
         source: new ol.source.XYZ({
           attributions: 'Tiles &copy; <a href="https://www.gaiagps.com/">Gaia GPS</a> / USFS Classic',
@@ -484,7 +458,6 @@
         })
       });
 
-      // Define layers, starting with the Gaia GPS basemap
       const layers = [
         gaiaUsfsBasemap,
         createGeojsonLayer('simplified_SE.geojson'),
@@ -493,24 +466,21 @@
         createGeojsonLayer('simplified_NW.geojson')
       ];
 
-      // Initialize map
       const map = new ol.Map({
         target: 'map',
         layers: layers,
         view: new ol.View({
-          center: ol.proj.fromLonLat([-71.30, 44.27]), // Mount Washington
+          center: ol.proj.fromLonLat([-71.30, 44.27]),
           zoom: 11
         })
       });
 
-      // --- Search Bar Logic ---
       const searchInput = document.getElementById('search-input');
       const searchButton = document.getElementById('search-button');
       const searchResultsDiv = document.getElementById('search-results');
       const searchResultsList = searchResultsDiv.querySelector('ul');
       const searchContainer = document.getElementById('search-container');
 
-      // Debounce function to limit API calls
       function debounce(func, delay) {
         let timeout;
         return function(...args) {
@@ -520,7 +490,6 @@
         };
       }
 
-      // Function to perform geocoding
       async function geocodeAddress(query) {
         if (query.length < 3) {
             searchResultsDiv.style.display = 'none';
@@ -532,7 +501,7 @@
         try {
           const response = await fetch(nominatimUrl, {
               headers: {
-                  'User-Agent': 'ProhibitiveCampingMap/1.0 (your-email@example.com)' // REPLACE WITH YOUR EMAIL!
+                  'User-Agent': 'ProhibitiveCampingMap/1.0 (your-email@example.com)'
               }
           });
           if (!response.ok) {
@@ -546,7 +515,6 @@
         }
       }
 
-      // Function to zoom to a location
       function zoomToLocation(lon, lat, zoomLevel = 14) {
         const view = map.getView();
         const coords = ol.proj.fromLonLat([parseFloat(lon), parseFloat(lat)]);
@@ -557,7 +525,6 @@
         });
       }
 
-      // Display search results
       function displaySearchResults(results) {
         searchResultsList.innerHTML = '';
         if (results && results.length > 0) {
@@ -583,7 +550,6 @@
         }
       }
 
-      // --- Event Listeners for Search ---
       searchInput.addEventListener('input', debounce(async () => {
         const query = searchInput.value.trim();
         if (query.length > 2) {
@@ -636,8 +602,6 @@
           }
       });
 
-
-      // --- Coordinate Tooltip Logic ---
       const coordinateTooltipElement = document.getElementById('coordinate-tooltip');
 
       const coordinateOverlay = new ol.Overlay({
