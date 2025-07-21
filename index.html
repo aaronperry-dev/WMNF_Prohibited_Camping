@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Prohibitive Camping Areas in NH's White Mountains</title>
-  <!-- Load OpenLayers CSS from jsDelivr dist folder -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@6.15.1/dist/ol.css" integrity="sha384-PLACEHOLDER" crossorigin="anonymous">
+  <title>Prohibitive Camping Areas in NH&#39;s White Mountains</title>
+  <!-- Load OpenLayers CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@6.15.1/dist/ol.css">
   <style>
     html, body { margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; }
     #title { text-align: center; padding: 10px; font-family: sans-serif; font-size: 1.5em; }
@@ -15,7 +15,7 @@
   </style>
 </head>
 <body>
-  <div id="title">Prohibitive Camping Areas in NH's White Mountains</div>
+  <div id="title">Prohibitive Camping Areas in NH&#39;s White Mountains</div>
   <div id="map"></div>
   <div id="legend">
     <h3>Camping Regulations</h3>
@@ -26,13 +26,13 @@
       <li>Camp at least <strong>1/4 mile</strong> from designated roads.</li>
     </ul>
   </div>
-  <!-- Load OpenLayers JS from jsDelivr dist folder -->
-  <script src="https://cdn.jsdelivr.net/npm/ol@6.15.1/dist/ol.js" integrity="sha384-PLACEHOLDER" crossorigin="anonymous"></script>
+  <!-- Load OpenLayers JS -->
+  <script src="https://cdn.jsdelivr.net/npm/ol@6.15.1/dist/ol.js"></script>
   <script>
     window.onload = function() {
       // Validate OpenLayers global
-      if (typeof ol === 'undefined') {
-        console.error('OpenLayers library not found. Make sure the script src is correct and served over HTTP/HTTPS.');
+      if (typeof ol === "undefined") {
+        console.error("OpenLayers library not found. Make sure the script src is correct and served over HTTP/HTTPS.");
         return;
       }
 
@@ -60,7 +60,11 @@
       ];
 
       // Initialize map
-      const map = new ol.Map({ target: 'map', layers: layers, view: new ol.View({ center: [0, 0], zoom: 2 }) });
+      const map = new ol.Map({
+        target: 'map',
+        layers: layers,
+        view: new ol.View({ center: [0, 0], zoom: 2 })
+      });
 
       // Fit map to combined extent
       const sources = layers.slice(1).map(l => l.getSource());
