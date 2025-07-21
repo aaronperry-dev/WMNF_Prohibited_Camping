@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Prohibitive Camping Areas in NH's White Mountains</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@6.15.1/ol.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.6.0/ol.css">
   <style>
     html, body { margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; }
     #title { text-align: center; padding: 10px; font-family: sans-serif; font-size: 1.5em; }
@@ -25,7 +25,7 @@
       <li>Camp at least <strong>1/4 mile</strong> from designated roads.</li>
     </ul>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/ol@6.15.1/ol.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ol@v10.6.0/dist/ol.js"></script>
   <script>
     window.onload = function() {
       // Validate OpenLayers global
@@ -48,9 +48,20 @@
         });
       }
 
-      // Define layers
+      // Define the Esri World Topographic Map basemap
+      // You can find URLs for other Esri basemaps in their documentation.
+      const esriTopoBasemap = new ol.layer.Tile({
+        source: new ol.source.XYZ({
+          attributions: 'Tiles &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">Esri</a>',
+          url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+          // Optional: maxZoom can be adjusted based on the basemap's available zoom levels
+          maxZoom: 19
+        })
+      });
+
+      // Define layers, starting with the Esri basemap
       const layers = [
-        new ol.layer.Tile({ source: new ol.source.OSM() }),
+        esriTopoBasemap, // Your new Esri basemap
         createGeojsonLayer('simplified_SE.geojson'),
         createGeojsonLayer('simplified_SW.geojson'),
         createGeojsonLayer('simplified_NE.geojson'),
@@ -61,10 +72,15 @@
       const map = new ol.Map({
         target: 'map',
         layers: layers,
-        view: new ol.View({ center: [0, 0], zoom: 2 })
+        view: new ol.View({
+          center: ol.proj.fromLonLat([-71.3, 44.1]), // Centering on the White Mountains, NH
+          zoom: 10 // An initial zoom level that might be good for the area
+        })
       });
 
       // Fit map to combined extent
+      // This part remains largely the same, but the initial center/zoom helps
+      // if the GeoJSON layers take a moment to load.
       const sources = layers.slice(1).map(l => l.getSource());
       let readyCount = 0;
       sources.forEach(src => {
@@ -74,7 +90,7 @@
             if (readyCount === sources.length) {
               const extent = ol.extent.createEmpty();
               sources.forEach(s => ol.extent.extend(extent, s.getExtent()));
-              map.getView().fit(extent, { padding: [50, 50, 50, 50] });
+              map.getView().fit(extent, { padding: [50, 50, 50, 50], duration: 1000 });
             }
           }
         });
