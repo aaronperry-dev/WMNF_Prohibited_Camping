@@ -49,19 +49,17 @@
       }
 
       // Define the Esri World Topographic Map basemap
-      // You can find URLs for other Esri basemaps in their documentation.
       const esriTopoBasemap = new ol.layer.Tile({
         source: new ol.source.XYZ({
           attributions: 'Tiles &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">Esri</a>',
           url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-          // Optional: maxZoom can be adjusted based on the basemap's available zoom levels
           maxZoom: 19
         })
       });
 
       // Define layers, starting with the Esri basemap
       const layers = [
-        esriTopoBasemap, // Your new Esri basemap
+        esriTopoBasemap,
         createGeojsonLayer('simplified_SE.geojson'),
         createGeojsonLayer('simplified_SW.geojson'),
         createGeojsonLayer('simplified_NE.geojson'),
@@ -73,14 +71,13 @@
         target: 'map',
         layers: layers,
         view: new ol.View({
-          center: ol.proj.fromLonLat([-71.3, 44.1]), // Centering on the White Mountains, NH
-          zoom: 10 // An initial zoom level that might be good for the area
+          // Center on Mount Washington (approximately 44.27 N, -71.30 W)
+          center: ol.proj.fromLonLat([-71.30, 44.27]),
+          zoom: 12 // Adjusted zoom level for Mount Washington area
         })
       });
 
-      // Fit map to combined extent
-      // This part remains largely the same, but the initial center/zoom helps
-      // if the GeoJSON layers take a moment to load.
+      // Fit map to combined extent of GeoJSON layers
       const sources = layers.slice(1).map(l => l.getSource());
       let readyCount = 0;
       sources.forEach(src => {
@@ -90,7 +87,9 @@
             if (readyCount === sources.length) {
               const extent = ol.extent.createEmpty();
               sources.forEach(s => ol.extent.extend(extent, s.getExtent()));
-              map.getView().fit(extent, { padding: [50, 50, 50, 50], duration: 1000 });
+              if (!ol.extent.isEmpty(extent)) {
+                map.getView().fit(extent, { padding: [50, 50, 50, 50], duration: 1000 });
+              }
             }
           }
         });
