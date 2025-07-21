@@ -26,6 +26,8 @@
       background-attachment: fixed;
       font-family: 'Helvetica', 'Arial', sans-serif; /* New theme font family */
       line-height: 1.6;
+      /* Add this to hide overall body scrollbar if content exceeds height */
+      overflow: hidden;
     }
 
     /* New Theme Banner */
@@ -43,6 +45,7 @@
       background: #4061A6;
       height: 45px;
       border-radius: 0px;
+      flex-shrink: 0; /* Prevent navbar from shrinking */
     }
     #menu ul, #menu li {
       margin: 0 auto;
@@ -129,6 +132,7 @@
       background-color: rgba(255, 255, 255, 0.85); /* Added semi-transparent background */
       margin: 0; /* Remove margin from previous iteration */
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex-shrink: 0; /* Prevent title from shrinking */
     }
     #title h1 {
       /* New theme h1 style */
@@ -168,13 +172,13 @@
       display: flex;
       flex-direction: column;
       position: relative; /* For map's absolute positioning of search/tooltip */
-      padding-bottom: 30px; /* Space for the fixed footer */
-      overflow: auto; /* Allows content to scroll if it exceeds viewport height */
+      /* padding-bottom: 30px; */ /* Removed as footer is now 20px and fixed to bottom */
+      overflow: hidden; /* **Crucial: Prevent scrollbar on main-content** */
     }
 
     #map {
       flex: 1; /* Keep map flexible */
-      min-height: 400px; /* Ensure a minimum height for the map */
+      /* min-height: 400px; */ /* Removed min-height to allow full flex */
       width: 100%;
       position: relative; /* Keep for search/tooltip overlays */
     }
@@ -185,7 +189,8 @@
       background: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
       font-family: 'Helvetica', 'Arial', sans-serif; /* Match body font */
       box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
-      margin-top: 10px; /* Space from map */
+      /* margin-top: 10px; */ /* Removed margin to allow legend to sit directly below map */
+      flex-shrink: 0; /* Prevent legend from shrinking */
     }
     #legend h3 {
       text-align: left;
@@ -287,7 +292,7 @@
       color: white;
       text-align: center;
       padding: 5px;
-      position: fixed;
+      position: fixed; /* Keep fixed position */
       bottom: 0;
       width: 100%;
       height: 20px;
@@ -297,6 +302,7 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      flex-shrink: 0; /* Prevent footer from shrinking */
     }
 
     /* Additional Theme Styles (Tables, etc.) - Not directly used on this page, but included for consistency */
@@ -419,7 +425,7 @@
       <ul>
         <li>Camp at least **200 ft** from trails and water bodies.</li>
         <li>Camp at least **1/4 mile** from backcountry facilities (shelters, huts, trailheads).</li>
-        <li>No camping in the alpine zone (trees $\le$8 ft) except when $\ge$2 ft of snow cover.</li>
+        <li>No camping in the alpine zone (trees &lt;8 ft) except when &ge;2 ft of snow cover.</li>
         <li>Camp at least **1/4 mile** from designated roads.</li>
       </ul>
     </div>
