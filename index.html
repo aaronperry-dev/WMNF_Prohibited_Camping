@@ -21,7 +21,7 @@
     <ul>
       <li>Camp at least <strong>200 ft</strong> from trails and water bodies.</li>
       <li>Camp at least <strong>1/4 mile</strong> from backcountry facilities (shelters, huts, trailheads).</li>
-      <li>No camping in the alpine zone (trees ≤8 ft) except when ≥2 ft of snow cover.</li>
+      <li>No camping in the alpine zone (trees &le;8 ft) except when &ge;2 ft of snow cover.</li>
       <li>Camp at least <strong>1/4 mile</strong> from designated roads.</li>
     </ul>
   </div>
@@ -71,29 +71,17 @@
         target: 'map',
         layers: layers,
         view: new ol.View({
-          // Center on Mount Washington (approximately 44.27 N, -71.30 W)
+          // Set initial center to Mount Washington (approximately 44.27 N, -71.30 W)
           center: ol.proj.fromLonLat([-71.30, 44.27]),
-          zoom: 11 // Changed zoom level to 11
+          // Set initial zoom level to 11
+          zoom: 11
         })
       });
 
-      // Fit map to combined extent of GeoJSON layers
-      const sources = layers.slice(1).map(l => l.getSource());
-      let readyCount = 0;
-      sources.forEach(src => {
-        src.on('change', () => {
-          if (src.getState() === 'ready') {
-            readyCount++;
-            if (readyCount === sources.length) {
-              const extent = ol.extent.createEmpty();
-              sources.forEach(s => ol.extent.extend(extent, s.getExtent()));
-              if (!ol.extent.isEmpty(extent)) {
-                map.getView().fit(extent, { padding: [50, 50, 50, 50], duration: 1000 });
-              }
-            }
-          }
-        });
-      });
+      // IMPORTANT: The logic to automatically fit the map to the combined extent of GeoJSON layers
+      // has been REMOVED as per Option 1. The map will maintain the initial center and zoom.
+      // Your GeoJSON data will still load and display, but might be partially or fully off-screen
+      // depending on its extent relative to the initial view.
     };
   </script>
 </body>
