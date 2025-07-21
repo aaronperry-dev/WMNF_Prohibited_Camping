@@ -48,18 +48,19 @@
         });
       }
 
-      // Define the Esri World Topographic Map basemap
-      const esriTopoBasemap = new ol.layer.Tile({
+      // Define the Gaia GPS USFS Classic basemap
+      const gaiaUsfsBasemap = new ol.layer.Tile({
         source: new ol.source.XYZ({
-          attributions: 'Tiles &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">Esri</a>',
-          url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-          maxZoom: 19
+          attributions: 'Tiles &copy; <a href="https://www.gaiagps.com/">Gaia GPS</a> / USFS Classic',
+          url: 'https://statictiles.gaiagps.com/usfs-classic/{z}/{x}/{y}.png',
+          minZoom: 0, // As specified in your URL string
+          maxZoom: 18 // As specified in your URL string
         })
       });
 
-      // Define layers, starting with the Esri basemap
+      // Define layers, starting with the Gaia GPS basemap
       const layers = [
-        esriTopoBasemap,
+        gaiaUsfsBasemap, // Your new Gaia GPS basemap
         createGeojsonLayer('simplified_SE.geojson'),
         createGeojsonLayer('simplified_SW.geojson'),
         createGeojsonLayer('simplified_NE.geojson'),
@@ -78,10 +79,8 @@
         })
       });
 
-      // IMPORTANT: The logic to automatically fit the map to the combined extent of GeoJSON layers
-      // has been REMOVED as per Option 1. The map will maintain the initial center and zoom.
-      // Your GeoJSON data will still load and display, but might be partially or fully off-screen
-      // depending on its extent relative to the initial view.
+      // The logic to automatically fit the map to the combined extent of GeoJSON layers
+      // has been removed, so the map will maintain the initial center and zoom.
     };
   </script>
 </body>
