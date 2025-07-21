@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Prohibitive Camping Areas in NH's White Mountains</title>
-  <!-- Load OpenLayers CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@6.15.1/ol.css">
+  <!-- Load OpenLayers CSS from jsDelivr dist folder -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@6.15.1/dist/ol.css" integrity="sha384-PLACEHOLDER" crossorigin="anonymous">
   <style>
     html, body { margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; }
     #title { text-align: center; padding: 10px; font-family: sans-serif; font-size: 1.5em; }
@@ -26,55 +26,50 @@
       <li>Camp at least <strong>1/4 mile</strong> from designated roads.</li>
     </ul>
   </div>
-  <!-- Load OpenLayers JS -->
-  <script src="https://cdn.jsdelivr.net/npm/ol@6.15.1/ol.js"></script>
+  <!-- Load OpenLayers JS from jsDelivr dist folder -->
+  <script src="https://cdn.jsdelivr.net/npm/ol@6.15.1/dist/ol.js" integrity="sha384-PLACEHOLDER" crossorigin="anonymous"></script>
   <script>
     window.onload = function() {
-      // Ensure OpenLayers loaded
+      // Validate OpenLayers global
       if (typeof ol === 'undefined') {
-        console.error('OpenLayers library not found. Check the CDN path and that you're serving over HTTP/HTTPS.');
+        console.error('OpenLayers library not found. Make sure the script src is correct and served over HTTP/HTTPS.');
         return;
       }
 
-      // GeoJSON layer style
+      // Common style for GeoJSON layers
       const geojsonStyle = new ol.style.Style({
         fill: new ol.style.Fill({ color: 'rgba(255, 0, 0, 0.5)' }),
         stroke: new ol.style.Stroke({ color: 'red', width: 2 })
       });
 
-      // Create vector layer from GeoJSON URL
+      // Factory for vector layers
       function createGeojsonLayer(url) {
         return new ol.layer.Vector({
-          source: new ol.source.Vector({
-            url: url,
-            format: new ol.format.GeoJSON()
-          }),
+          source: new ol.source.Vector({ url: url, format: new ol.format.GeoJSON() }),
           style: geojsonStyle
         });
       }
 
-      // Instantiate layers
-      const layerSE = createGeojsonLayer('simplified_SE.geojson');
-      const layerSW = createGeojsonLayer('simplified_SW.geojson');
-      const layerNE = createGeojsonLayer('simplified_NE.geojson');
-      const layerNW = createGeojsonLayer('simplified_NW.geojson');
-      const osmLayer = new ol.layer.Tile({ source: new ol.source.OSM() });
+      // Define layers
+      const layers = [
+        new ol.layer.Tile({ source: new ol.source.OSM() }),
+        createGeojsonLayer('simplified_SE.geojson'),
+        createGeojsonLayer('simplified_SW.geojson'),
+        createGeojsonLayer('simplified_NE.geojson'),
+        createGeojsonLayer('simplified_NW.geojson')
+      ];
 
       // Initialize map
-      const map = new ol.Map({
-        target: 'map',
-        layers: [osmLayer, layerSE, layerSW, layerNE, layerNW],
-        view: new ol.View({ center: [0, 0], zoom: 2 })
-      });
+      const map = new ol.Map({ target: 'map', layers: layers, view: new ol.View({ center: [0, 0], zoom: 2 }) });
 
-      // Fit to combined extent when all sources ready
-      const sources = [layerSE.getSource(), layerSW.getSource(), layerNE.getSource(), layerNW.getSource()];
-      let loaded = 0;
+      // Fit map to combined extent
+      const sources = layers.slice(1).map(l => l.getSource());
+      let readyCount = 0;
       sources.forEach(src => {
         src.on('change', () => {
           if (src.getState() === 'ready') {
-            loaded++;
-            if (loaded === sources.length) {
+            readyCount++;
+            if (readyCount === sources.length) {
               const extent = ol.extent.createEmpty();
               sources.forEach(s => ol.extent.extend(extent, s.getExtent()));
               map.getView().fit(extent, { padding: [50, 50, 50, 50] });
