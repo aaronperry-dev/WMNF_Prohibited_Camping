@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prohibitive Camping Areas in NH's White Mountains</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.6.0/ol.css">
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; font-family: sans-serif; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      font-family: sans-serif;
+    }
     #title {
       text-align: center;
       padding: 10px;
-      font-family: sans-serif;
-      /* Adjusted font sizes for H1 and H2 within the title div */
     }
     #title h1 {
       font-size: 1.8em; /* Main title */
@@ -24,16 +30,16 @@
     }
 
     #map { flex: 1; position: relative; }
-    #legend { padding: 10px; background: #f9f9f9; font-family: sans-serif; }
+    #legend { padding: 10px; background: #f9f9f9; }
     #legend h3 { margin-top: 0; }
     #legend ul { margin: 0; padding-left: 20px; }
 
 
-    /* Search Bar Styling */
+    /* Search Bar Styling (Desktop/Default) */
     #search-container {
       position: absolute;
       top: 10px;
-      right: 10px;
+      right: 10px; /* Positioned to the right on larger screens */
       z-index: 1000;
       background-color: rgba(255, 255, 255, 0.9);
       padding: 8px;
@@ -42,6 +48,8 @@
       display: flex;
       flex-direction: column;
       gap: 5px;
+      width: 280px; /* Give it a consistent width */
+      box-sizing: border-box; /* Include padding/border in width */
     }
     #search-input-group {
         display: flex;
@@ -52,7 +60,7 @@
       padding: 6px 10px;
       font-size: 1em;
       border-radius: 3px;
-      width: 200px;
+      flex-grow: 1; /* Allows input to take available space */
     }
     #search-button {
       background-color: #007bff;
@@ -68,7 +76,7 @@
       background-color: #0056b3;
     }
     #search-results {
-        width: 100%;
+        width: 100%; /* Fill the container width */
         background-color: white;
         border: 1px solid #ccc;
         border-radius: 0 0 5px 5px;
@@ -121,6 +129,53 @@
         background: #f0f0f0;
         border-top: 1px solid #ddd;
     }
+
+    /* --- Media Queries for Mobile Responsiveness --- */
+    @media (max-width: 768px) { /* Applies styles for screens up to 768px wide (e.g., portrait tablets, most phones) */
+      #title h1 {
+        font-size: 1.5em; /* Smaller title on mobile */
+      }
+      #title h2 {
+        font-size: 1em; /* Smaller explanation on mobile */
+      }
+
+      #search-container {
+        left: 50%; /* Center horizontally */
+        right: auto; /* Override right: 10px */
+        transform: translateX(-50%); /* Adjust for centering */
+        width: 90%; /* Make it wider to fill more of the screen */
+        max-width: 350px; /* Prevent it from becoming too wide on larger phones/small tablets */
+      }
+
+      #search-results {
+        max-height: 150px; /* Slightly reduce max height on smaller screens */
+      }
+    }
+
+    @media (max-width: 480px) { /* Further adjustments for very small screens (e.g., older phones) */
+        #title h1 {
+            font-size: 1.3em;
+        }
+        #title h2 {
+            font-size: 0.9em;
+        }
+        #search-container {
+            top: 5px; /* Move slightly higher */
+            padding: 5px;
+            width: 95%; /* Even wider */
+        }
+        #search-input {
+            padding: 4px 8px; /* Smaller padding */
+            font-size: 0.9em;
+        }
+        #search-button {
+            padding: 4px 10px; /* Smaller padding */
+            font-size: 0.9em;
+        }
+        #coordinate-tooltip {
+            font-size: 0.75em; /* Smaller font for tooltip */
+        }
+    }
   </style>
 </head>
 <body>
@@ -146,7 +201,7 @@
       <li>Camp at least <strong>200 ft</strong> from trails and water bodies.</li>
       <li>Camp at least <strong>1/4 mile</strong> from backcountry facilities (shelters, huts, trailheads).</li>
       <li>No camping in the alpine zone (trees &le;8 ft) except when &ge;2 ft of snow cover.</li>
-      <li>Camp at least <strong>1/4 mile</strong> from designated roads.</li>
+      <li>Camp at least 1/4 mile from designated roads.</li>
     </ul>
   </div>
 
