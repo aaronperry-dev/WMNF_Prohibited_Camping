@@ -5,12 +5,29 @@
   <title>Prohibitive Camping Areas in NH's White Mountains</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.6.0/ol.css">
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; font-family: sans-serif; } /* Added font-family here */
-    #title { text-align: center; padding: 10px; font-family: sans-serif; font-size: 1.5em; }
+    html, body { margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; font-family: sans-serif; }
+    #title {
+      text-align: center;
+      padding: 10px;
+      font-family: sans-serif;
+      /* Adjusted font sizes for H1 and H2 within the title div */
+    }
+    #title h1 {
+      font-size: 1.8em; /* Main title */
+      margin-bottom: 5px; /* Space between H1 and H2 */
+    }
+    #title h2 {
+      font-size: 1.1em; /* Explanation text */
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
     #map { flex: 1; position: relative; }
     #legend { padding: 10px; background: #f9f9f9; font-family: sans-serif; }
     #legend h3 { margin-top: 0; }
     #legend ul { margin: 0; padding-left: 20px; }
+
 
     /* Search Bar Styling */
     #search-container {
@@ -78,7 +95,7 @@
         background-color: #f0f0f0;
     }
 
-    /* Coordinate Tooltip Styling - UPDATED */
+    /* Coordinate Tooltip Styling */
     #coordinate-tooltip {
       position: absolute;
       background: white;
@@ -92,12 +109,15 @@
       transform: translate(-50%, -100%);
       margin-top: -10px;
       border: 1px solid #ccc;
-      font-family: sans-serif; /* Explicitly set font to match */
+      font-family: sans-serif;
     }
   </style>
 </head>
 <body>
-  <div id="title">Prohibitive Camping Areas in NH's White Mountains</div>
+  <div id="title">
+    <h1>Prohibitive Camping Areas in NH's White Mountains</h1>
+    <h2><span style="color: red;">&#9632;</span> Red shaded areas indicate locations where dispersed/backcountry camping is strictly prohibited.</h2>
+  </div>
   <div id="map">
     <div id="search-container">
       <div id="search-input-group">
@@ -319,10 +339,9 @@
           const coordinate = event.coordinate;
           const lonLat = ol.proj.toLonLat(coordinate);
 
-          // Format: Lat, Lon (e.g., 44.1234, -71.5678) - UPDATED WITH SPACE
           const lat = lonLat[1].toFixed(4);
           const lon = lonLat[0].toFixed(4);
-          coordinateTooltipElement.innerHTML = `${lat}, ${lon}`; // Added space after comma
+          coordinateTooltipElement.innerHTML = `${lat}, ${lon}`;
 
           coordinateOverlay.setPosition(coordinate);
           coordinateTooltipElement.style.display = 'block';
